@@ -1,6 +1,6 @@
 # NVM Token for Binance Smart Chain
 
-Novem Gold AG Utility Token
+Novem Gold Utility Token
 
 ## Deployed
 
