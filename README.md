@@ -4,11 +4,9 @@ Novem Gold Utility Token
 
 ## Deployed
 
-"DefaultProxyAdmin" https://bscscan.com/address/0x860493FCd0cf7507dF2C3C35a69DFed4d91beEFE
+"NVMToken_Implementation" https://bscscan.com/address/0x5963157b20Ad01d5147F850cb58ED05B456939C4
 
-"NVMToken_Implementation" https://bscscan.com/address/0xa4233fc020672d15b804246cf7ecdeb36efd8b1b
-
-"NVMToken_Proxy" https://bscscan.com/address/0x8F8350fd36B1Da9Cc1E92744C8D8186ae0215D3C
+"NVMToken_Proxy" https://bscscan.com/address/0x4320983F330D3788287d1138f066b01d07a17514
 
 ## Audit
 
