@@ -14,7 +14,7 @@ import "@openzeppelin/contracts-upgradeable/utils/math/SafeMathUpgradeable.sol";
  * the proxy, including admin actions.
  * Any call to transfer against this contract should fail.
  */
-contract NVMToken is
+contract NVMTokenV2 is
     ERC20PresetMinterPauserUpgradeable,
     ERC20CappedUpgradeable
 {
@@ -144,5 +144,10 @@ contract NVMToken is
         return amount.div(tokenTransferFeeDivisor);
     }
 
+
+    function getFeeAddr() public view returns(address) {
+        return feeAddress;
+    }
+    
     uint256[50] private __gap;
 }
