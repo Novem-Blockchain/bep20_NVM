@@ -1,4 +1,4 @@
-const FEE = 400
+const FEE = 200
 const TOKEN_DEPLOYER_ACCOUNT = 0
 const TOKEN_NAME = "Novem Token"
 const TOKEN_SYMBOL = "NVM"
