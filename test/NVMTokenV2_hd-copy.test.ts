@@ -1,7 +1,7 @@
 import {expect} from './chai-setup';
 import {ethers, deployments, getUnnamedAccounts, upgrades} from 'hardhat';
 import {NVMTokenV2} from '../typechain';
-import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/dist/src/signers";
+import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import {setupUsers} from './utils';
 import {FEE, TOKEN_NAME, TOKEN_SYMBOL, ZERO_ADDRESS, FEE_EXCLUDED_ROLE} from './include_in_testfiles.js';
 
