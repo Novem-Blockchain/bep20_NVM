@@ -1,29 +1,31 @@
 import {expect} from './chai-setup';
-import {ethers, deployments, getUnnamedAccounts} from 'hardhat';
+import {ethers, deployments, getUnnamedAccounts, upgrades} from 'hardhat';
 import {NVMTokenV2} from '../typechain';
-import {setupUsers} from './utils';
+import {SignerWithAddress} from "@nomiclabs/hardhat-ethers/signers";
 import {FEE, TOKEN_NAME, TOKEN_SYMBOL, ZERO_ADDRESS, FEE_EXCLUDED_ROLE} from './include_in_testfiles.js';
-
-const setup = deployments.createFixture(async () => {
-  await deployments.fixture('NVMTokenV2');
-
-  const contracts = {
-    NVMTokenV2: <NVMTokenV2>await ethers.getContract('NVMTokenV2'),
-  };
-  const users = await setupUsers(await getUnnamedAccounts(), contracts);
-  return {
-    ...contracts,
-    users,
-  };
-});
 
 const toWei = ethers.utils.parseEther;
 
 describe('NVMTokenV2', function () {
+  let addrs: SignerWithAddress[]
+  let acc1: SignerWithAddress;
+  let acc2: SignerWithAddress;
+  let owner: SignerWithAddress;
+
+  let contract_proxy: NVMTokenV2;
+
   beforeEach(async () => {
-    const {users, NVMTokenV2} = await setup();
-    NVMTokenV2.setFeeWalletAddress(users[1].address);
-    NVMTokenV2.setTransferFeeDivisor(FEE);
+    [owner, acc1, acc2, ...addrs] = await ethers.getSigners();
+   
+    const NVMToken = await ethers.getContractFactory("NVMToken");
+    const nvmtoken = await upgrades.deployProxy(NVMToken, ["300000000000000000000000000"], {initializer: "__initializeNVM"});
+    await nvmtoken.deployed();
+
+    const NVMTokenV2 = await ethers.getContractFactory("NVMTokenV2");
+    contract_proxy = <NVMTokenV2>await upgrades.upgradeProxy(nvmtoken.address, NVMTokenV2);
+
+    contract_proxy.setFeeWalletAddress(acc1.address);
+    contract_proxy.setTransferFeeDivisor(FEE);  
   });
 
   function delay(ms: number) {
@@ -31,31 +33,27 @@ describe('NVMTokenV2', function () {
   }
 
   it('sets minting fee address', async function () {
-    const {users, NVMTokenV2} = await setup();
-    let newFeeAdddress = users[7].address;
-    NVMTokenV2.setFeeWalletAddress(newFeeAdddress);
+    let newFeeAdddress = acc2.address;
+    contract_proxy.setFeeWalletAddress(newFeeAdddress);
     await delay(1000);
-    expectEqualStringValues(await NVMTokenV2.feeAddress(), newFeeAdddress)
+    expectEqualStringValues(await contract_proxy.feeAddress(), newFeeAdddress)
   });
 
   it('sets minting fee divisor', async function () {
-    const {users, NVMTokenV2} = await setup();
     let newFee = 1000;
-    NVMTokenV2.setTransferFeeDivisor(1000);
-    expectEqualStringValues(await NVMTokenV2.tokenTransferFeeDivisor(), newFee)
+    contract_proxy.setTransferFeeDivisor(1000);
+    expectEqualStringValues(await contract_proxy.tokenTransferFeeDivisor(), newFee)
   });
-  
-  
+
+
   it('sets minting fee divisor to 0 and throws exception', async function () {
-    const {users, NVMTokenV2} = await setup();
-    await expect(NVMTokenV2.setTransferFeeDivisor(0)).to.be.revertedWith(
+    await expect(contract_proxy.setTransferFeeDivisor(0)).to.be.revertedWith(
       'Token transfer fee divisor must be greater than 0'
     );
   });
 
   it('reverts when setting invalid fee address', async function () {
-    const {users, NVMTokenV2} = await setup();
-    await expect(NVMTokenV2.setFeeWalletAddress(ZERO_ADDRESS)).to.be.revertedWith('zero address is not allowed');
+    await expect(contract_proxy.setFeeWalletAddress(ZERO_ADDRESS)).to.be.revertedWith('zero address is not allowed');
   });
 
   function expectEqualStringValues(value1, value2) {
@@ -63,54 +61,48 @@ describe('NVMTokenV2', function () {
 }
 
   it('name should be Novem Token', async function () {
-    const {NVMTokenV2} = await setup();
-    expect(await NVMTokenV2.name()).to.equal('Novem Token');
+    expect(await contract_proxy.name()).to.equal('Novem Token');
   });
 
   it('symbol should be NVM', async function () {
-    const {NVMTokenV2} = await setup();
-    expect(await NVMTokenV2.symbol()).to.equal('NVM');
+    expect(await contract_proxy.symbol()).to.equal('NVM');
   });
 
   it('has 18 decimals', async function () {
-    const {NVMTokenV2} = await setup();
-    expect(await NVMTokenV2.decimals()).to.be.equal(18);
+    expect(await contract_proxy.decimals()).to.be.equal(18);
   });
 
   it('has cap of 300 million tokens', async function () {
-    const {NVMTokenV2} = await setup();
-    expect(await NVMTokenV2.cap()).to.equal(toWei('300000000'));
+    expect(await contract_proxy.cap()).to.equal(toWei('300000000'));
   });
 
   it('should revert if we try to mint more then 300 million tokens', async function () {
-    const {users, NVMTokenV2} = await setup();
-    await expect(NVMTokenV2.mint(users[1].address, toWei('300000001'))).to.be.revertedWith('ERC20Capped: cap exceeded');
+    await expect(contract_proxy.mint(acc1.address, toWei('300000001'))).to.be.revertedWith('ERC20Capped: cap exceeded');
   });
 
   it('deployer should have minter role', async function () {
-    const {NVMTokenV2} = await setup();
-    const minterRole = await NVMTokenV2.getRoleMember(
+    const minterRole = await contract_proxy.getRoleMember(
       '0x9f2df0fed2c77648de5860a4cc508cd0818c85b8b8a1ab4ceeef8d981c8956a6',
       0
     );
-    const deployerAddress = await NVMTokenV2.signer.getAddress();
+    const deployerAddress = await contract_proxy.signer.getAddress();
     await expect(deployerAddress).to.equal(minterRole);
   });
 
   it('should revert if not the deployer tries to mint', async function () {
-    const {users} = await setup();
-    await expect(users[0].NVMTokenV2.mint(users[1].address, toWei('3'))).to.be.revertedWith(
+    contract_proxy = contract_proxy.connect(acc2);
+    await expect(contract_proxy.mint(acc2.address, toWei('3'))).to.be.revertedWith(
       'ERC20PresetMinterPauser: must have minter role to mint'
     );
   });
 
   it('should mint and burn', async function () {
-    const {users, NVMTokenV2} = await setup();
-    await NVMTokenV2.mint(users[1].address, toWei('30'));
-    const balanceAfterMint = await NVMTokenV2.balanceOf(users[1].address);
+    await contract_proxy.mint(acc2.address, toWei('30'));
+    const balanceAfterMint = await contract_proxy.balanceOf(acc2.address);
     expect(balanceAfterMint).to.equal(toWei('30'));
-    await users[1].NVMTokenV2.burn(toWei('30'));
-    const balanceAfterBurn = await NVMTokenV2.balanceOf(users[1].address);
+    contract_proxy = contract_proxy.connect(acc2);
+    await contract_proxy.burn(toWei('30'));
+    const balanceAfterBurn = await contract_proxy.balanceOf(acc2.address);
     expect(balanceAfterBurn).to.equal(toWei('0'));
   });
 });
