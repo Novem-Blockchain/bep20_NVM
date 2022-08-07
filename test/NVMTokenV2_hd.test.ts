@@ -1,27 +1,64 @@
 import {expect} from './chai-setup';
 import {ethers, deployments, getUnnamedAccounts, upgrades} from 'hardhat';
+import {NVMTokenV2} from '../typechain';
 import {SignerWithAddress} from "@nomiclabs/hardhat-ethers/signers";
-import {NVMToken} from '../typechain';
-
+import {FEE, TOKEN_NAME, TOKEN_SYMBOL, ZERO_ADDRESS, FEE_EXCLUDED_ROLE} from './include_in_testfiles.js';
 
 const toWei = ethers.utils.parseEther;
 
-describe('NVMToken', function () {
+describe('NVMTokenV2', function () {
   let addrs: SignerWithAddress[]
   let acc1: SignerWithAddress;
   let acc2: SignerWithAddress;
   let owner: SignerWithAddress;
 
-  let contract_proxy: NVMToken;
+  let contract_proxy: NVMTokenV2;
+
   beforeEach(async () => {
     [owner, acc1, acc2, ...addrs] = await ethers.getSigners();
+   
     const NVMToken = await ethers.getContractFactory("NVMToken");
-    contract_proxy = <NVMToken>await upgrades.deployProxy(NVMToken, ["300000000000000000000000000"], {initializer: "__initializeNVM"});
-    await contract_proxy.deployed();
+    const nvmtoken = await upgrades.deployProxy(NVMToken, ["300000000000000000000000000"], {initializer: "__initializeNVM"});
+    await nvmtoken.deployed();
 
+    const NVMTokenV2 = await ethers.getContractFactory("NVMTokenV2");
+    contract_proxy = <NVMTokenV2>await upgrades.upgradeProxy(nvmtoken.address, NVMTokenV2);
 
-
+    contract_proxy.setFeeWalletAddress(acc1.address);
+    contract_proxy.setTransferFeeDivisor(FEE);  
   });
+
+  function delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
+  }
+
+  it('sets minting fee address', async function () {
+    let newFeeAdddress = acc2.address;
+    contract_proxy.setFeeWalletAddress(newFeeAdddress);
+    await delay(1000);
+    expectEqualStringValues(await contract_proxy.feeAddress(), newFeeAdddress)
+  });
+
+  it('sets minting fee divisor', async function () {
+    let newFee = 1000;
+    contract_proxy.setTransferFeeDivisor(1000);
+    expectEqualStringValues(await contract_proxy.tokenTransferFeeDivisor(), newFee)
+  });
+
+
+  it('sets minting fee divisor to 0 and throws exception', async function () {
+    await expect(contract_proxy.setTransferFeeDivisor(0)).to.be.revertedWith(
+      'Token transfer fee divisor must be greater than 0'
+    );
+  });
+
+  it('reverts when setting invalid fee address', async function () {
+    await expect(contract_proxy.setFeeWalletAddress(ZERO_ADDRESS)).to.be.revertedWith('zero address is not allowed');
+  });
+
+  function expectEqualStringValues(value1, value2) {
+    expect(value1.toString()).to.equal(value2.toString())
+}
 
   it('name should be Novem Token', async function () {
     expect(await contract_proxy.name()).to.equal('Novem Token');
@@ -32,12 +69,10 @@ describe('NVMToken', function () {
   });
 
   it('has 18 decimals', async function () {
-
-    expect(await  contract_proxy.decimals()).to.be.equal(18);
+    expect(await contract_proxy.decimals()).to.be.equal(18);
   });
 
   it('has cap of 300 million tokens', async function () {
-
     expect(await contract_proxy.cap()).to.equal(toWei('300000000'));
   });
 
@@ -53,7 +88,6 @@ describe('NVMToken', function () {
     const deployerAddress = await contract_proxy.signer.getAddress();
     await expect(deployerAddress).to.equal(minterRole);
   });
-
 
   it('should revert if not the deployer tries to mint', async function () {
     contract_proxy = contract_proxy.connect(acc2);

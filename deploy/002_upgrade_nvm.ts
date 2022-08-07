@@ -9,17 +9,11 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const {deployer} = await getNamedAccounts();
 
   await deploy('NVMToken', {
-    contract: 'NVMToken',
+    contract: 'NVMTokenV2',
     from: deployer,
     proxy: {
       owner: deployer,
       proxyContract: 'OpenZeppelinTransparentProxy',
-      execute: {
-        init: {
-          methodName: '__initializeNVM',
-          args: ['300000000000000000000000000'],
-        },
-      },
     },
     log: true,
   });
