@@ -18,7 +18,7 @@ contract NVMToken is
     ERC20CappedUpgradeable
 {
     function __initializeNVM(uint256 cap) public initializer {
-        __ERC20PresetMinterPauser_init("Novem Token", "NVM");
+        __ERC20PresetMinterPauser_init("Novem Pro Token", "NVM");
         __ERC20Capped_init_unchained(cap);
     }
 
