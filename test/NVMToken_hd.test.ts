@@ -2,6 +2,8 @@ import {expect} from './chai-setup';
 import {ethers, deployments, getUnnamedAccounts, upgrades} from 'hardhat';
 import {SignerWithAddress} from "@nomiclabs/hardhat-ethers/signers";
 import {NVMToken} from '../typechain';
+import {FEE, TOKEN_NAME, TOKEN_SYMBOL, ZERO_ADDRESS, FEE_EXCLUDED_ROLE, expectEqualStringValues} from './include_in_testfiles.js';
+
 
 
 const toWei = ethers.utils.parseEther;
@@ -23,12 +25,41 @@ describe('NVMToken', function () {
 
   });
 
-  it('name should be Novem Token', async function () {
-    expect(await contract_proxy.name()).to.equal('Novem Token');
+  function delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
+  }
+
+  it('name should be Novem Pro Token', async function () {
+    expect(await contract_proxy.name()).to.equal('Novem Pro Token');
   });
 
   it('symbol should be NVM', async function () {
     expect(await contract_proxy.symbol()).to.equal('NVM');
+  });
+
+
+  it('sets minting fee address', async function () {
+    let newFeeAdddress = acc2.address;
+    contract_proxy.setFeeWalletAddress(newFeeAdddress);
+    await delay(1000);
+    expectEqualStringValues(await contract_proxy.feeAddress(), newFeeAdddress)
+  });
+
+  it('sets minting fee divisor', async function () {
+    let newFee = 1000;
+    contract_proxy.setTransferFeeDivisor(1000);
+    expectEqualStringValues(await contract_proxy.tokenTransferFeeDivisor(), newFee)
+  });
+
+
+  it('reverts when setting invalid fee address', async function () {
+    await expect(contract_proxy.setFeeWalletAddress(ZERO_ADDRESS)).to.be.revertedWith('zero address is not allowed');
+  });
+
+  it('sets minting fee divisor to 0 and throws exception', async function () {
+    await expect(contract_proxy.setTransferFeeDivisor(0)).to.be.revertedWith(
+      'Token transfer fee divisor must be greater than 0'
+    );
   });
 
   it('has 18 decimals', async function () {
