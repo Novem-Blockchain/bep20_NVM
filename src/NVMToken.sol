@@ -7,7 +7,7 @@ import "@openzeppelin/contracts-upgradeable/utils/math/SafeMathUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 
 /**
- * @title NNN Gold Token
+ * @title NVM Pro Token
  * @dev this contract is a Pausable ERC20 token with Burn and Mint functions.
  * By implementing EnhancedMinterPauser this contract also includes external
  * methods for setting a new implementation contract for the Proxy.

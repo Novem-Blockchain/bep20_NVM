@@ -21,12 +21,12 @@ async function main() {
   const NVM_Factory = await hre.ethers.getContractFactory("NVMToken");
   console.log("network name", hre.network.name)
   if (hre.network.name == 'localhost') {
-    proxy = await NVM_Factory.attach("0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0")
+    proxy = await NVM_Factory.attach("0x5FC8d32690cc91D4c39d9d3abcBD16989F875707")
   } else if (hre.network.name == 'testnet') {
     console.log("on testnet")
-    proxy = await NVM_Factory.attach("0x4320983F330D3788287d1138f066b01d07a17514")
+    proxy = await NVM_Factory.attach("0xDD1527A826C7FC7BC0F08eb27f28AD11110E7A8e")
   } else if (hre.network.name == 'mainnet') {
-    proxy = await NVM_Factory.attach("0xbC338EBAaEf242C5AEa767D9330CeA43AD4149E3")
+    proxy = await NVM_Factory.attach("0xbe2D8AC2A370972C4328BED520b224C3903A4941")
   }
 
   var feeWalletAddr = "0xef7cd1379ec7d0f673718343d19bdd59c165a7c6"
