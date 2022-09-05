@@ -3,9 +3,9 @@ const hre = require("hardhat");
 const { deployments, getNamedAccounts } = hre;
 const { ethers } = require('hardhat');
 const { ether, BN } = require('@openzeppelin/test-helpers');
-import { func } from '../deploy/001_deploy_nnn.ts';
+import { func } from '../deploy/001_deploy_nvm.ts';
 
-const one_nnn = new BN("1000000000000000000")
+const one_nvm = new BN("1000000000000000000")
 
 
 
@@ -25,37 +25,37 @@ async function main() {
   const deployerWallet = accounts[0]
   const deployer = accounts[0].address
   const novemWallet = "0xED3b232bCDe677037cABaaB174799Be35C58bc27"
-  const mint_amount = new BN("150000000")
+  const mint_amount = new BN("300000000")
 
-  const NNN_Factory = await hre.ethers.getContractFactory("NVMToken");
+  const nvm_Factory = await hre.ethers.getContractFactory("NVMToken");
   console.log("network name", hre.network.name)
-  if (hre.network.name == 'hardhat') {
-    const nnn_proxy = await ethers.getContract("NVMToken", deployer);
+  if (hre.network.name == 'localhost') {
+    const nvm_proxy = await ethers.getContract("NVMToken", deployer);
   } else if (hre.network.name == 'testnet') {
     console.log("on testnet")
-    const nnn_proxy = await NNN_Factory.attach("0x4320983F330D3788287d1138f066b01d07a17514")
+    const nvm_proxy = await nvm_Factory.attach("0xDD1527A826C7FC7BC0F08eb27f28AD11110E7A8e")
   } else if (hre.network.name == 'mainnet') {
-    const nnn_proxy = await NNN_Factory.attach("0xbC338EBAaEf242C5AEa767D9330CeA43AD4149E3")
+    const nvm_proxy = await nvm_Factory.attach("0xbe2D8AC2A370972C4328BED520b224C3903A4941")
   }
-  console.log("nnn_proxy address: ", nnn_proxy.address)
+  console.log("nvm_proxy address: ", nvm_proxy.address)
 
   console.log("deployer address: ", deployer)
 
-  const supply = await nnn_proxy.totalSupply();
+  const supply = await nvm_proxy.totalSupply();
   console.log(" token supply: ", supply.toString())
 
-  const ownerBalance = await nnn_proxy.balanceOf(deployer);
+  const ownerBalance = await nvm_proxy.balanceOf(deployer);
 
   console.log(deployer, " contract deployer token balance: ", ownerBalance.toString())
-  console.log("Novem Wallet balance before mint: ", (await nnn_proxy.balanceOf(novemWallet)).toString())
+  console.log("Novem Wallet balance before mint: ", (await nvm_proxy.balanceOf(novemWallet)).toString())
 
 
-  await nnn_proxy.mint(novemWallet, (one_nnn.mul(mint_amount)).toString())
-  console.log("minted:", mint_amount);
+  await nvm_proxy.mint(novemWallet, (one_nvm.mul(mint_amount)).toString())
+  console.log("minted:", mint_amount.toString());
 
-  const new_supply = await nnn_proxy.totalSupply();
+  const new_supply = await nvm_proxy.totalSupply();
   console.log("new token supply: ", new_supply.toString())
-  console.log("Novem Wallet balance after mint: ", (await nnn_proxy.balanceOf(novemWallet)).toString())
+  console.log("Novem Wallet balance after mint: ", (await nvm_proxy.balanceOf(novemWallet)).toString())
 
 }
 
