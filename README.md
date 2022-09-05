@@ -1,14 +1,14 @@
 # NVM Token for Binance Smart Chain
 
-Novem Gold Utility Token
+Novem Gold Pro Token
 
 ## Deployed
 
-"DefaultProxyAdmin" https://bscscan.com/address/0xF930E7B5B8c02CF816124457AE2DF29a47cC7BE6
+"DefaultProxyAdmin" https://bscscan.com/address/0x98dB240b652d296c64718DF379a66D6f413EaBD4
 
-"NVMToken_Implementation" https://bscscan.com/address/0x5963157b20Ad01d5147F850cb58ED05B456939C4
+"NVMToken_Implementation" https://bscscan.com/address/0x76c73BB0f32B985d35f72cE681a4F5BBD87A1347
 
-"NVMToken_Proxy" https://bscscan.com/address/0xbC338EBAaEf242C5AEa767D9330CeA43AD4149E3
+"NVMToken_Proxy" https://bscscan.com/address/0xbe2D8AC2A370972C4328BED520b224C3903A4941
 
 ## Audit
 
