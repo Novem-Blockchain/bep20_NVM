@@ -4,7 +4,7 @@ const { deployments, getNamedAccounts } = hre;
 const { ethers } = require('hardhat');
 const { ether, BN } = require('@openzeppelin/test-helpers');
 import { func } from '../deploy/001_deploy_nvm.ts';
-const timers = require('timers/promises')
+//const timers = require('timers/promises')
 
 const one_nvm = new BN("1000000000000000000")
 
@@ -42,7 +42,7 @@ async function main() {
 
   console.log("deployer address: ", deployer)
 
-  console.log("has whitelist role: ",await nvm_proxy.hasRole("0xbcaa5c4620c62b2fedc77ef4fe401724814aeef811d907416a737179a85b1ab2", "0xED3b232bCDe677037cABaaB174799Be35C58bc27"));
+  /* console.log("has whitelist role: ",await nvm_proxy.hasRole("0xbcaa5c4620c62b2fedc77ef4fe401724814aeef811d907416a737179a85b1ab2", "0xED3b232bCDe677037cABaaB174799Be35C58bc27"));
   console.log("has whitelist role: ",await nvm_proxy.hasRole("0xbcaa5c4620c62b2fedc77ef4fe401724814aeef811d907416a737179a85b1ab2", "0xbd186632f17aC6881F952A6f03c617e00f2f7F74"));
   console.log("has whitelist role: ",await nvm_proxy.hasRole("0xbcaa5c4620c62b2fedc77ef4fe401724814aeef811d907416a737179a85b1ab2", "0x1A0f4B3D35867103ce61E142B09e79A554D18fd0"));
   console.log("has whitelist role: ",await nvm_proxy.hasRole("0xbcaa5c4620c62b2fedc77ef4fe401724814aeef811d907416a737179a85b1ab2", "0xD3B4E49b428a6924E5a1B8B20fAA6F14029FB4C7"));
@@ -50,9 +50,10 @@ async function main() {
   console.log("has whitelist role: ",await nvm_proxy.hasRole("0xbcaa5c4620c62b2fedc77ef4fe401724814aeef811d907416a737179a85b1ab2", "0x643363C9EcE37bF707da6B908403f578cBCF27b2"));
   console.log("has whitelist role: ",await nvm_proxy.hasRole("0xbcaa5c4620c62b2fedc77ef4fe401724814aeef811d907416a737179a85b1ab2", "0xef7cD1379Ec7D0F673718343d19bDD59C165A7C6"));
   console.log("has whitelist role: ",await nvm_proxy.hasRole("0xbcaa5c4620c62b2fedc77ef4fe401724814aeef811d907416a737179a85b1ab2", "0x55bd9de3c06fe868ffe5b8debd4d068fc29e4c68"));
+  console.log("has whitelist role: ",await nvm_proxy.hasRole("0xbcaa5c4620c62b2fedc77ef4fe401724814aeef811d907416a737179a85b1ab2", "0xea7b33d264f4b7e6fd283a8250a572f2ceefacd4"));
+ */
 
-
-  await nvm_proxy.grantRole("0xbcaa5c4620c62b2fedc77ef4fe401724814aeef811d907416a737179a85b1ab2", "0xED3b232bCDe677037cABaaB174799Be35C58bc27");
+/*   await nvm_proxy.grantRole("0xbcaa5c4620c62b2fedc77ef4fe401724814aeef811d907416a737179a85b1ab2", "0xED3b232bCDe677037cABaaB174799Be35C58bc27");
   await timers.setTimeout(5000)
   await nvm_proxy.grantRole("0xbcaa5c4620c62b2fedc77ef4fe401724814aeef811d907416a737179a85b1ab2", "0xbd186632f17aC6881F952A6f03c617e00f2f7F74");
   await timers.setTimeout(5000);
@@ -67,8 +68,12 @@ async function main() {
   await nvm_proxy.grantRole("0xbcaa5c4620c62b2fedc77ef4fe401724814aeef811d907416a737179a85b1ab2", "0xef7cD1379Ec7D0F673718343d19bDD59C165A7C6");
   await timers.setTimeout(5000);
   await nvm_proxy.grantRole("0xbcaa5c4620c62b2fedc77ef4fe401724814aeef811d907416a737179a85b1ab2", "0x55bd9de3c06fe868ffe5b8debd4d068fc29e4c68");
+  await timers.setTimeout(5000);
+  // bibox exchange
+  await nvm_proxy.grantRole("0xbcaa5c4620c62b2fedc77ef4fe401724814aeef811d907416a737179a85b1ab2", "0xea7b33d264f4b7e6fd283a8250a572f2ceefacd4");
+*/
 
-  console.log("has whitelist role: ",await nvm_proxy.hasRole("0xbcaa5c4620c62b2fedc77ef4fe401724814aeef811d907416a737179a85b1ab2", "0xED3b232bCDe677037cABaaB174799Be35C58bc27"));
+ /*  console.log("has whitelist role: ",await nvm_proxy.hasRole("0xbcaa5c4620c62b2fedc77ef4fe401724814aeef811d907416a737179a85b1ab2", "0xED3b232bCDe677037cABaaB174799Be35C58bc27"));
   console.log("has whitelist role: ",await nvm_proxy.hasRole("0xbcaa5c4620c62b2fedc77ef4fe401724814aeef811d907416a737179a85b1ab2", "0xbd186632f17aC6881F952A6f03c617e00f2f7F74"));
   console.log("has whitelist role: ",await nvm_proxy.hasRole("0xbcaa5c4620c62b2fedc77ef4fe401724814aeef811d907416a737179a85b1ab2", "0x1A0f4B3D35867103ce61E142B09e79A554D18fd0"));
   console.log("has whitelist role: ",await nvm_proxy.hasRole("0xbcaa5c4620c62b2fedc77ef4fe401724814aeef811d907416a737179a85b1ab2", "0xD3B4E49b428a6924E5a1B8B20fAA6F14029FB4C7"));
@@ -76,8 +81,13 @@ async function main() {
   console.log("has whitelist role: ",await nvm_proxy.hasRole("0xbcaa5c4620c62b2fedc77ef4fe401724814aeef811d907416a737179a85b1ab2", "0x643363C9EcE37bF707da6B908403f578cBCF27b2"));
   console.log("has whitelist role: ",await nvm_proxy.hasRole("0xbcaa5c4620c62b2fedc77ef4fe401724814aeef811d907416a737179a85b1ab2", "0xef7cD1379Ec7D0F673718343d19bDD59C165A7C6"));
   console.log("has whitelist role: ",await nvm_proxy.hasRole("0xbcaa5c4620c62b2fedc77ef4fe401724814aeef811d907416a737179a85b1ab2", "0x55bd9de3c06fe868ffe5b8debd4d068fc29e4c68"));
+  console.log("has whitelist role: ",await nvm_proxy.hasRole("0xbcaa5c4620c62b2fedc77ef4fe401724814aeef811d907416a737179a85b1ab2", "0xea7b33d264f4b7e6fd283a8250a572f2ceefacd4"));
+*/
 
+//await nvm_proxy.grantRole("0xbcaa5c4620c62b2fedc77ef4fe401724814aeef811d907416a737179a85b1ab2", "0xC8b6b950a83dCFdeE7275e53A1fBB9547818A866");
 
+//crypterium
+console.log("has whitelist role: ",await nvm_proxy.hasRole("0xbcaa5c4620c62b2fedc77ef4fe401724814aeef811d907416a737179a85b1ab2", "0xC8b6b950a83dCFdeE7275e53A1fBB9547818A866"));
 
 }
 
