@@ -63,7 +63,9 @@ const config: HardhatUserConfig = {
     },
     mainnet: {
       url: 'https://bsc-dataseed1.binance.org:443',
-      accounts: MAINNET_PRIVATE_KEYS
+      accounts: MAINNET_PRIVATE_KEYS,
+      // minGasPrice: 10000000000,
+      //initialBaseFeePerGas: 11000000000
     },
     testnet: {
       url: 'https://data-seed-prebsc-1-s1.binance.org:8545',

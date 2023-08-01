@@ -7285,6 +7285,11 @@ timed-out@^4.0.0, timed-out@^4.0.1:
   resolved "https://registry.yarnpkg.com/timed-out/-/timed-out-4.0.1.tgz#f32eacac5a175bea25d7fab565ab3ed8741ef56f"
   integrity sha512-G7r3AhovYtr5YKOWQkta8RKAPb+J9IsO4uVmzjl8AZwfhs8UcUwTiD6gcJYSgOtzyjvQKrKYn41syHbUWMkafA==
 
+timers-promises@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/timers-promises/-/timers-promises-1.0.1.tgz#d4883030f8e0c90fb28ac1fc39863e24eaef2da0"
+  integrity sha512-u87PAM7pIloXOxGcjqfDRQB72NG8DIVKafVafHgixzlsPlLnZTw9IkiX/WYSAqK1SkRAc6J2I/SUrBiswGvNiA==
+
 title-case@^2.1.0:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/title-case/-/title-case-2.1.1.tgz#3e127216da58d2bc5becf137ab91dae3a7cd8faa"

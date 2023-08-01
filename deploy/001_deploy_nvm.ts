@@ -7,6 +7,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const {deploy} = deployments;
 
   const {deployer} = await getNamedAccounts();
+  console.log("deployer address: ", deployer)
 
   await deploy('NVMToken', {
     contract: 'NVMToken',

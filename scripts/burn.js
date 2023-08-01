@@ -50,10 +50,11 @@ async function main() {
   console.log(deployer, " contract deployer token balance: ", ownerBalance.toString())
   console.log("Wallet balance before burn: ", (await nvm_proxy.balanceOf(novemWallet)).toString())
 
-  const burn_amount = 2267461
-  console.log("burning amount:",toWei((burn_amount).toString()))
-  await nvm_proxy.burn(toWei((burn_amount).toString()))
-  console.log("burned:", burn_amount.toString());
+  const BURN_AMOUNT = 2060178.96765526
+
+  console.log("burning amount:",toWei((BURN_AMOUNT).toString()))
+  await nvm_proxy.burn(toWei((BURN_AMOUNT).toString()))
+  console.log("burned:", BURN_AMOUNT.toString());
 
   const new_supply = await nvm_proxy.totalSupply();
   console.log("new token supply: ", new_supply.toString())
