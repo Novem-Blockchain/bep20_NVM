@@ -35,7 +35,7 @@ async function main() {
     providerAddress = 'http://localhost:8545'
   } else if (hre.network.name == 'testnet') {
     console.log("on testnet")
-    nvm_proxy = await nvm_Factory.attach("0xDD1527A826C7FC7BC0F08eb27f28AD11110E7A8e")
+    nvm_proxy = await nvm_Factory.attach("0x9eB947Be4de53332022Edbc51528d33EB5D80f94")
     providerAddress = 'https://data-seed-prebsc-1-s1.binance.org:8545'
 
   } else if (hre.network.name == 'mainnet') {
@@ -101,7 +101,7 @@ async function main() {
   // console.log("has whitelist role: ", await nvm_proxy.hasRole("0xbcaa5c4620c62b2fedc77ef4fe401724814aeef811d907416a737179a85b1ab2", "0x3a723e58c4808dde4591543282adc7d6b378715b"));
 
   // Coinsbit
-  const whitelistAddress = "0x75987b9edB5463CE1a3a857E11671424600927A4"
+  const whitelistAddress = "0x2a9A4FDcd541Fa049cBb4cf2dAf8929735608dc1"
   const txResult = await nvm_proxy.grantRole("0xbcaa5c4620c62b2fedc77ef4fe401724814aeef811d907416a737179a85b1ab2", whitelistAddress);
   console.log("waiting for transaction to complete", txResult)
   await waitUntilTransactionMined(txResult.hash, provider)

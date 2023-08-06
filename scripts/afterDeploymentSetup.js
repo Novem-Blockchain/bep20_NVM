@@ -24,7 +24,7 @@ async function main() {
     proxy = await NVM_Factory.attach("0x5FC8d32690cc91D4c39d9d3abcBD16989F875707")
   } else if (hre.network.name == 'testnet') {
     console.log("on testnet")
-    proxy = await NVM_Factory.attach("0xDD1527A826C7FC7BC0F08eb27f28AD11110E7A8e")
+    proxy = await NVM_Factory.attach("0x9eB947Be4de53332022Edbc51528d33EB5D80f94")
   } else if (hre.network.name == 'mainnet') {
     proxy = await NVM_Factory.attach("0xbe2D8AC2A370972C4328BED520b224C3903A4941")
   }
