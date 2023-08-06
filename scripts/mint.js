@@ -34,7 +34,7 @@ async function main() {
   } else if (hre.network.name == 'testnet') {
     console.log("on testnet")
     const novemWallet = "0x2a9A4FDcd541Fa049cBb4cf2dAf8929735608dc1"
-    const nvm_proxy = await nvm_Factory.attach("0xDD1527A826C7FC7BC0F08eb27f28AD11110E7A8e")
+    const nvm_proxy = await nvm_Factory.attach("0x9eB947Be4de53332022Edbc51528d33EB5D80f94")
   } else if (hre.network.name == 'mainnet') {
     const novemWallet = "0xED3b232bCDe677037cABaaB174799Be35C58bc27"
     const nvm_proxy = await nvm_Factory.attach("0xbe2D8AC2A370972C4328BED520b224C3903A4941")
