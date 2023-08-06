@@ -81,6 +81,10 @@ async function main() {
     // bibox exchange
     await nvm_proxy.grantRole("0xbcaa5c4620c62b2fedc77ef4fe401724814aeef811d907416a737179a85b1ab2", "0xea7b33d264f4b7e6fd283a8250a572f2ceefacd4");
 
+  //crypterium
+  //await nvm_proxy.grantRole("0xbcaa5c4620c62b2fedc77ef4fe401724814aeef811d907416a737179a85b1ab2", "0xC8b6b950a83dCFdeE7275e53A1fBB9547818A866");
+  //console.log("has whitelist role: ",await nvm_proxy.hasRole("0xbcaa5c4620c62b2fedc77ef4fe401724814aeef811d907416a737179a85b1ab2", "0xC8b6b950a83dCFdeE7275e53A1fBB9547818A866"));
+
   // DEX exchange
   const txResult = await nvm_proxy.grantRole("0xbcaa5c4620c62b2fedc77ef4fe401724814aeef811d907416a737179a85b1ab2", "0xD0ACB9C61cD72E0f57B19268D70c73b77DbDd553", { from: deployer});
   console.log("waiting for transaction to complete", txResult)
@@ -90,29 +94,20 @@ async function main() {
   */
 
   // BitForex
-  const txResult = await nvm_proxy.grantRole("0xbcaa5c4620c62b2fedc77ef4fe401724814aeef811d907416a737179a85b1ab2", "0x3a723e58c4808dde4591543282adc7d6b378715b");
+  // const txResult = await nvm_proxy.grantRole("0xbcaa5c4620c62b2fedc77ef4fe401724814aeef811d907416a737179a85b1ab2", "0x3a723e58c4808dde4591543282adc7d6b378715b");
+  // console.log("waiting for transaction to complete", txResult)
+  // await waitUntilTransactionMined(txResult.hash, provider)
+  // //await timers.setTimeout(5000);
+  // console.log("has whitelist role: ", await nvm_proxy.hasRole("0xbcaa5c4620c62b2fedc77ef4fe401724814aeef811d907416a737179a85b1ab2", "0x3a723e58c4808dde4591543282adc7d6b378715b"));
+
+  // Coinsbit
+  const whitelistAddress = "0x75987b9edB5463CE1a3a857E11671424600927A4"
+  const txResult = await nvm_proxy.grantRole("0xbcaa5c4620c62b2fedc77ef4fe401724814aeef811d907416a737179a85b1ab2", whitelistAddress);
   console.log("waiting for transaction to complete", txResult)
   await waitUntilTransactionMined(txResult.hash, provider)
   //await timers.setTimeout(5000);
-  console.log("has whitelist role: ", await nvm_proxy.hasRole("0xbcaa5c4620c62b2fedc77ef4fe401724814aeef811d907416a737179a85b1ab2", "0x3a723e58c4808dde4591543282adc7d6b378715b"));
+  console.log("has whitelist role: ", await nvm_proxy.hasRole("0xbcaa5c4620c62b2fedc77ef4fe401724814aeef811d907416a737179a85b1ab2", whitelistAddress));
 
-
-
-  /*  console.log("has whitelist role: ",await nvm_proxy.hasRole("0xbcaa5c4620c62b2fedc77ef4fe401724814aeef811d907416a737179a85b1ab2", "0xED3b232bCDe677037cABaaB174799Be35C58bc27"));
-   console.log("has whitelist role: ",await nvm_proxy.hasRole("0xbcaa5c4620c62b2fedc77ef4fe401724814aeef811d907416a737179a85b1ab2", "0xbd186632f17aC6881F952A6f03c617e00f2f7F74"));
-   console.log("has whitelist role: ",await nvm_proxy.hasRole("0xbcaa5c4620c62b2fedc77ef4fe401724814aeef811d907416a737179a85b1ab2", "0x1A0f4B3D35867103ce61E142B09e79A554D18fd0"));
-   console.log("has whitelist role: ",await nvm_proxy.hasRole("0xbcaa5c4620c62b2fedc77ef4fe401724814aeef811d907416a737179a85b1ab2", "0xD3B4E49b428a6924E5a1B8B20fAA6F14029FB4C7"));
-   console.log("has whitelist role: ",await nvm_proxy.hasRole("0xbcaa5c4620c62b2fedc77ef4fe401724814aeef811d907416a737179a85b1ab2", "0xD6e8Dbe452b0B76d9047169e80b44778602d6C3e"));
-   console.log("has whitelist role: ",await nvm_proxy.hasRole("0xbcaa5c4620c62b2fedc77ef4fe401724814aeef811d907416a737179a85b1ab2", "0x643363C9EcE37bF707da6B908403f578cBCF27b2"));
-   console.log("has whitelist role: ",await nvm_proxy.hasRole("0xbcaa5c4620c62b2fedc77ef4fe401724814aeef811d907416a737179a85b1ab2", "0xef7cD1379Ec7D0F673718343d19bDD59C165A7C6"));
-   console.log("has whitelist role: ",await nvm_proxy.hasRole("0xbcaa5c4620c62b2fedc77ef4fe401724814aeef811d907416a737179a85b1ab2", "0x55bd9de3c06fe868ffe5b8debd4d068fc29e4c68"));
-   console.log("has whitelist role: ",await nvm_proxy.hasRole("0xbcaa5c4620c62b2fedc77ef4fe401724814aeef811d907416a737179a85b1ab2", "0xea7b33d264f4b7e6fd283a8250a572f2ceefacd4"));
- */
-
-  //await nvm_proxy.grantRole("0xbcaa5c4620c62b2fedc77ef4fe401724814aeef811d907416a737179a85b1ab2", "0xC8b6b950a83dCFdeE7275e53A1fBB9547818A866");
-
-  //crypterium
-  //console.log("has whitelist role: ",await nvm_proxy.hasRole("0xbcaa5c4620c62b2fedc77ef4fe401724814aeef811d907416a737179a85b1ab2", "0xC8b6b950a83dCFdeE7275e53A1fBB9547818A866"));
 
 }
 
