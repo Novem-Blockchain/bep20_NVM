@@ -16,7 +16,8 @@ if (process.env.HARDHAT_FORK) {
 import {
   MAINNET_PRIVATE_KEYS,
   TESTNET_PRIVATE_KEYS,
-  ETHERSCAN_API_KEY
+  ETHERSCAN_API_KEY,
+  BSC_MAINNET_RPC
 } from './.secrets.json'
 
 const config: HardhatUserConfig = {
@@ -62,7 +63,7 @@ const config: HardhatUserConfig = {
       accounts: accounts(),
     },
     mainnet: {
-      url: 'https://bsc-dataseed1.binance.org:443',
+      url: BSC_MAINNET_RPC,
       accounts: MAINNET_PRIVATE_KEYS,
       // minGasPrice: 10000000000,
       //initialBaseFeePerGas: 11000000000
